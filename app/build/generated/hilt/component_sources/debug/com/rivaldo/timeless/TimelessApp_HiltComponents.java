@@ -1,5 +1,6 @@
 package com.rivaldo.timeless;
 
+import androidx.hilt.work.HiltWrapper_WorkerFactoryModule;
 import com.rivaldo.timeless.data.local.di.DatabaseModule;
 import com.rivaldo.timeless.data.repository.RepositoryModule;
 import com.rivaldo.timeless.presentation.diary.DiaryViewModel_HiltModules;
@@ -123,6 +124,7 @@ public final class TimelessApp_HiltComponents {
           ApplicationContextModule.class,
           DatabaseModule.class,
           HiltWrapper_FragmentGetContextFix_FragmentGetContextFixModule.class,
+          HiltWrapper_WorkerFactoryModule.class,
           RepositoryModule.class,
           ActivityRetainedCBuilderModule.class,
           ServiceCBuilderModule.class

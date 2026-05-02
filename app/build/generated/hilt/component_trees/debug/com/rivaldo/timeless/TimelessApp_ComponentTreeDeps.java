@@ -17,6 +17,7 @@ import dagger.hilt.processor.internal.definecomponent.codegen._dagger_hilt_andro
 import dagger.hilt.processor.internal.definecomponent.codegen._dagger_hilt_android_internal_builders_ViewModelComponentBuilder;
 import dagger.hilt.processor.internal.definecomponent.codegen._dagger_hilt_android_internal_builders_ViewWithFragmentComponentBuilder;
 import dagger.hilt.processor.internal.definecomponent.codegen._dagger_hilt_components_SingletonComponent;
+import hilt_aggregated_deps._androidx_hilt_work_HiltWrapper_WorkerFactoryModule;
 import hilt_aggregated_deps._com_rivaldo_timeless_MainActivity_GeneratedInjector;
 import hilt_aggregated_deps._com_rivaldo_timeless_TimelessApp_GeneratedInjector;
 import hilt_aggregated_deps._com_rivaldo_timeless_data_local_di_DatabaseModule;
@@ -67,6 +68,7 @@ import hilt_aggregated_deps._dagger_hilt_android_internal_modules_HiltWrapper_Ac
         _dagger_hilt_components_SingletonComponent.class
     },
     aggregatedDeps = {
+        _androidx_hilt_work_HiltWrapper_WorkerFactoryModule.class,
         _com_rivaldo_timeless_MainActivity_GeneratedInjector.class,
         _com_rivaldo_timeless_TimelessApp_GeneratedInjector.class,
         _com_rivaldo_timeless_data_local_di_DatabaseModule.class,

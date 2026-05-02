@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.rivaldo.timeless.app-mergeDebugResources-71:/values-v21/values-v21.xml",
+            "outputFile": "com.rivaldo.timeless.app-mergeDebugResources-72:/values-v21/values-v21.xml",
             "map": [
                 {
-                    "source": "/Users/aldobuarlele/.gradle/caches/9.5.0/transforms/53695b2cf8c34b62874d1759365a6f0b/transformed/core-1.15.0/res/values-v21/values-v21.xml",
+                    "source": "/Users/aldobuarlele/.gradle/caches/9.5.0/transforms/5418ebfc15ed74c6f9d5988ff0d96efa/transformed/core-1.15.0/res/values-v21/values-v21.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,13",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4",

@@ -11,11 +11,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import com.rivaldo.timeless.domain.usecase.ScheduleReminderUseCase
 import com.rivaldo.timeless.presentation.core.TimelessTheme
 import com.rivaldo.timeless.presentation.diary.DiaryScreen
 import com.rivaldo.timeless.presentation.home.HomeScreen
 import com.rivaldo.timeless.presentation.onboarding.OnboardingScreen
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * Sealed class representing the possible navigation destinations.
@@ -33,8 +35,14 @@ private sealed class Screen {
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    @Inject
+    lateinit var scheduleReminderUseCase: ScheduleReminderUseCase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Schedule the daily reminder worker when the app opens
+        scheduleReminderUseCase()
         setContent {
             TimelessTheme {
                 Surface(
