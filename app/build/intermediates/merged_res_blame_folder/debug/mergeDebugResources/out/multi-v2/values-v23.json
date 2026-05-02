@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.rivaldo.timeless.app-mergeDebugResources-71:/values-v23/values-v23.xml",
+            "map": [
+                {
+                    "source": "/Users/aldobuarlele/.gradle/caches/9.5.0/transforms/f8eb79b4f618109c4a2d29887b0c7348/transformed/work-runtime-2.10.0/res/values-v23/values-v23.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,121",
+                        "endColumns": "65,62",
+                        "endOffsets": "116,179"
+                    }
+                }
+            ]
+        }
+    ]
+}

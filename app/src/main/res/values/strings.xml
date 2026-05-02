@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Timeless</string>
+
+    <!-- Onboarding: Step 1 - Soft Reveal -->
+    <string name="onboarding_welcome_title">Selamat Datang di Timeless</string>
+    <string name="onboarding_welcome_subtitle">Aplikasi ini akan menemanimu merenung dan menangkap momen berharga setiap hari.</string>
+    <string name="onboarding_reflective_question">Apa yang ingin kamu capai?</string>
+    <string name="onboarding_name_hint">Tulis namamu di sini…</string>
+
+    <!-- Onboarding: Step 2 - Biodata -->
+    <string name="onboarding_biodata_title">Ceritakan tentang dirimu</string>
+    <string name="onboarding_birth_date">Tanggal Lahir</string>
+    <string name="onboarding_country">Negara</string>
+    <string name="onboarding_country_hint">Indonesia</string>
+    <string name="onboarding_life_expectancy">Harapan Hidup</string>
+    <string name="onboarding_life_expectancy_unit">tahun</string>
+
+    <!-- Onboarding: Step 3 - Time & Place -->
+    <string name="onboarding_context_title">Waktu dan Tempat</string>
+    <string name="onboarding_home_location">Lokasi Rumah</string>
+    <string name="onboarding_set_location">Set Lokasi Rumah</string>
+    <string name="onboarding_location_set">Lokasi rumah telah diatur</string>
+    <string name="onboarding_reminder_time">Jam Pengingat Harian</string>
+
+    <!-- Onboarding: Navigation -->
+    <string name="onboarding_next">Lanjut</string>
+    <string name="onboarding_previous">Kembali</string>
+    <string name="onboarding_finish">Selesai</string>
+    <string name="onboarding_saving">Menyimpan…</string>
+</resources>

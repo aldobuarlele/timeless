@@ -1,0 +1,25 @@
+R_DEF: Internal format may change without notice
+local
+color black
+color white
+string app_name
+string onboarding_biodata_title
+string onboarding_birth_date
+string onboarding_context_title
+string onboarding_country
+string onboarding_country_hint
+string onboarding_finish
+string onboarding_home_location
+string onboarding_life_expectancy
+string onboarding_life_expectancy_unit
+string onboarding_location_set
+string onboarding_name_hint
+string onboarding_next
+string onboarding_previous
+string onboarding_reflective_question
+string onboarding_reminder_time
+string onboarding_saving
+string onboarding_set_location
+string onboarding_welcome_subtitle
+string onboarding_welcome_title
+style Theme.Timeless

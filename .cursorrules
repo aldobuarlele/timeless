@@ -1,0 +1,25 @@
+# Project: Timeless
+# Role: Senior Android Developer & Software Architect
+# Description: A minimalist, local-first time-awareness and micro-diary app. The goal is to encourage reflection and reduce doom-scrolling without causing anxiety.
+
+## Core Philosophy & Constraints
+- STRICTLY LOCAL-FIRST: No external backend servers, no Firebase, no cloud syncing. All data lives on the device.
+- NO INTERNET PERMISSION: Do not add `<uses-permission android:name="android.permission.INTERNET" />` unless explicitly requested for a specific local API (e.g., reverse geocoding via local service).
+- ZERO-BLOAT STORAGE: Do NOT copy image files into the app's internal storage. Always save the original file URI (path), file name, EXIF data, and generate a tiny Base64 micro-thumbnail (max 5KB).
+- ANTI-ANXIETY UI: Do not use literal countdown numbers for time left. Use dots, shapes, or abstract representations in Jetpack Compose.
+- BATTERY EFFICIENT: Background tasks (WorkManager) must only run within a 30-60 minute window before the user's scheduled reminder time.
+
+## Tech Stack
+- Language: Kotlin
+- UI Toolkit: Jetpack Compose (Material 3)
+- Local Database: Room Database (SQLite)
+- Background Tasks: WorkManager
+- Location/Sensors: Fused Location Provider API & SensorManager (for Gyroscope/Screen State)
+- Architecture: MVVM (Model-View-ViewModel) with Clean Architecture principles (Data, Domain, Presentation layers).
+
+## Coding Standards
+- Use `build.gradle.kts` (Kotlin DSL) for all Gradle files.
+- Ensure Gradle properties are optimized for Apple Silicon (ARM64) compilation.
+- Use Coroutines and Flows for all asynchronous operations and database observing.
+- Keep Room Entities flat and highly normalized.
+- Separate UI State from UI Events in Compose ViewModels.

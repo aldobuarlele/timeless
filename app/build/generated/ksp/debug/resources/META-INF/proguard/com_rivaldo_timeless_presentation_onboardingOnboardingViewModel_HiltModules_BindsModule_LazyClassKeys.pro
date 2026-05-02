@@ -1,0 +1,5 @@
+-keep,allowobfuscation,allowshrinking class com.rivaldo.timeless.presentation.home.HomeViewModel
+-keep,allowobfuscation,allowshrinking class com.rivaldo.timeless.presentation.home.HomeViewModel
+-keep,allowobfuscation,allowshrinking class com.rivaldo.timeless.presentation.diary.DiaryViewModel
+-keep,allowobfuscation,allowshrinking class com.rivaldo.timeless.presentation.diary.DiaryViewModel
+-keep,allowobfuscation,allowshrinking class com.rivaldo.timeless.presentation.onboarding.OnboardingViewModel

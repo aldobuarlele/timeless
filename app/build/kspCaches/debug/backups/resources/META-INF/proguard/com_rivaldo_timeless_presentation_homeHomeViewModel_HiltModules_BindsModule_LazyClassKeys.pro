@@ -1,0 +1,1 @@
+-keep,allowobfuscation,allowshrinking class com.rivaldo.timeless.presentation.home.HomeViewModel
