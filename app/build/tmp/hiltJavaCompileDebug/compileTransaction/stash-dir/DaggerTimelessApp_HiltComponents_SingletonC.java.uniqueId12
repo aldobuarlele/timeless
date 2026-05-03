@@ -5,8 +5,12 @@ import android.app.Activity;
 import android.app.Service;
 import android.view.View;
 import androidx.fragment.app.Fragment;
+import androidx.hilt.work.HiltWorkerFactory;
+import androidx.hilt.work.WorkerAssistedFactory;
+import androidx.hilt.work.WorkerFactoryModule_ProvideFactoryFactory;
 import androidx.lifecycle.SavedStateHandle;
 import androidx.lifecycle.ViewModel;
+import androidx.work.ListenableWorker;
 import com.rivaldo.timeless.data.local.dao.DailyLogDao;
 import com.rivaldo.timeless.data.local.dao.UserProfileDao;
 import com.rivaldo.timeless.data.local.database.TimelessDatabase;
@@ -15,13 +19,16 @@ import com.rivaldo.timeless.data.local.di.DatabaseModule_ProvideTimelessDatabase
 import com.rivaldo.timeless.data.local.di.DatabaseModule_ProvideUserProfileDaoFactory;
 import com.rivaldo.timeless.data.local.media.MediaMetadataExtractor;
 import com.rivaldo.timeless.data.local.media.MicroThumbnailGenerator;
+import com.rivaldo.timeless.data.local.notification.NotificationChannelManager;
 import com.rivaldo.timeless.data.repository.DailyLogRepositoryImpl;
 import com.rivaldo.timeless.data.repository.UserProfileRepositoryImpl;
 import com.rivaldo.timeless.domain.usecase.CalculateTimeCanvasUseCase;
+import com.rivaldo.timeless.domain.usecase.GetJourneyReflectionUseCase;
 import com.rivaldo.timeless.domain.usecase.GetLogForDateUseCase;
 import com.rivaldo.timeless.domain.usecase.GetUserProfileUseCase;
 import com.rivaldo.timeless.domain.usecase.SaveDailyLogUseCase;
 import com.rivaldo.timeless.domain.usecase.SaveUserProfileUseCase;
+import com.rivaldo.timeless.domain.usecase.ScheduleReminderUseCase;
 import com.rivaldo.timeless.presentation.diary.DiaryViewModel;
 import com.rivaldo.timeless.presentation.diary.DiaryViewModel_HiltModules;
 import com.rivaldo.timeless.presentation.diary.DiaryViewModel_HiltModules_BindsModule_Binds_LazyMapKey;
@@ -380,6 +387,7 @@ public final class DaggerTimelessApp_HiltComponents_SingletonC {
 
     @Override
     public void injectMainActivity(MainActivity mainActivity) {
+      injectMainActivity2(mainActivity);
     }
 
     @Override
@@ -405,6 +413,11 @@ public final class DaggerTimelessApp_HiltComponents_SingletonC {
     @Override
     public ViewComponentBuilder viewComponentBuilder() {
       return new ViewCBuilder(singletonCImpl, activityRetainedCImpl, activityCImpl);
+    }
+
+    private MainActivity injectMainActivity2(MainActivity instance) {
+      MainActivity_MembersInjector.injectScheduleReminderUseCase(instance, singletonCImpl.scheduleReminderUseCaseProvider.get());
+      return instance;
     }
   }
 
@@ -441,6 +454,10 @@ public final class DaggerTimelessApp_HiltComponents_SingletonC {
 
     private GetUserProfileUseCase getUserProfileUseCase() {
       return new GetUserProfileUseCase(singletonCImpl.userProfileRepositoryImplProvider.get());
+    }
+
+    private GetJourneyReflectionUseCase getJourneyReflectionUseCase() {
+      return new GetJourneyReflectionUseCase(singletonCImpl.dailyLogRepositoryImplProvider.get());
     }
 
     private SaveUserProfileUseCase saveUserProfileUseCase() {
@@ -490,7 +507,7 @@ public final class DaggerTimelessApp_HiltComponents_SingletonC {
           return (T) new DiaryViewModel(viewModelCImpl.saveDailyLogUseCase(), viewModelCImpl.getLogForDateUseCase());
 
           case 1: // com.rivaldo.timeless.presentation.home.HomeViewModel 
-          return (T) new HomeViewModel(viewModelCImpl.getUserProfileUseCase(), new CalculateTimeCanvasUseCase(), viewModelCImpl.getLogForDateUseCase());
+          return (T) new HomeViewModel(viewModelCImpl.getUserProfileUseCase(), new CalculateTimeCanvasUseCase(), viewModelCImpl.getLogForDateUseCase(), viewModelCImpl.getJourneyReflectionUseCase());
 
           case 2: // com.rivaldo.timeless.presentation.onboarding.OnboardingViewModel 
           return (T) new OnboardingViewModel(viewModelCImpl.saveUserProfileUseCase(), viewModelCImpl.getUserProfileUseCase());
@@ -575,6 +592,10 @@ public final class DaggerTimelessApp_HiltComponents_SingletonC {
 
     private final SingletonCImpl singletonCImpl = this;
 
+    private Provider<NotificationChannelManager> notificationChannelManagerProvider;
+
+    private Provider<ScheduleReminderUseCase> scheduleReminderUseCaseProvider;
+
     private Provider<TimelessDatabase> provideTimelessDatabaseProvider;
 
     private Provider<DailyLogDao> provideDailyLogDaoProvider;
@@ -595,19 +616,26 @@ public final class DaggerTimelessApp_HiltComponents_SingletonC {
 
     }
 
+    private HiltWorkerFactory hiltWorkerFactory() {
+      return WorkerFactoryModule_ProvideFactoryFactory.provideFactory(Collections.<String, javax.inject.Provider<WorkerAssistedFactory<? extends ListenableWorker>>>emptyMap());
+    }
+
     @SuppressWarnings("unchecked")
     private void initialize(final ApplicationContextModule applicationContextModuleParam) {
-      this.provideTimelessDatabaseProvider = DoubleCheck.provider(new SwitchingProvider<TimelessDatabase>(singletonCImpl, 2));
-      this.provideDailyLogDaoProvider = DoubleCheck.provider(new SwitchingProvider<DailyLogDao>(singletonCImpl, 1));
-      this.microThumbnailGeneratorProvider = DoubleCheck.provider(new SwitchingProvider<MicroThumbnailGenerator>(singletonCImpl, 3));
-      this.mediaMetadataExtractorProvider = DoubleCheck.provider(new SwitchingProvider<MediaMetadataExtractor>(singletonCImpl, 4));
-      this.dailyLogRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<DailyLogRepositoryImpl>(singletonCImpl, 0));
-      this.provideUserProfileDaoProvider = DoubleCheck.provider(new SwitchingProvider<UserProfileDao>(singletonCImpl, 6));
-      this.userProfileRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<UserProfileRepositoryImpl>(singletonCImpl, 5));
+      this.notificationChannelManagerProvider = DoubleCheck.provider(new SwitchingProvider<NotificationChannelManager>(singletonCImpl, 0));
+      this.scheduleReminderUseCaseProvider = DoubleCheck.provider(new SwitchingProvider<ScheduleReminderUseCase>(singletonCImpl, 1));
+      this.provideTimelessDatabaseProvider = DoubleCheck.provider(new SwitchingProvider<TimelessDatabase>(singletonCImpl, 4));
+      this.provideDailyLogDaoProvider = DoubleCheck.provider(new SwitchingProvider<DailyLogDao>(singletonCImpl, 3));
+      this.microThumbnailGeneratorProvider = DoubleCheck.provider(new SwitchingProvider<MicroThumbnailGenerator>(singletonCImpl, 5));
+      this.mediaMetadataExtractorProvider = DoubleCheck.provider(new SwitchingProvider<MediaMetadataExtractor>(singletonCImpl, 6));
+      this.dailyLogRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<DailyLogRepositoryImpl>(singletonCImpl, 2));
+      this.provideUserProfileDaoProvider = DoubleCheck.provider(new SwitchingProvider<UserProfileDao>(singletonCImpl, 8));
+      this.userProfileRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<UserProfileRepositoryImpl>(singletonCImpl, 7));
     }
 
     @Override
     public void injectTimelessApp(TimelessApp timelessApp) {
+      injectTimelessApp2(timelessApp);
     }
 
     @Override
@@ -625,6 +653,12 @@ public final class DaggerTimelessApp_HiltComponents_SingletonC {
       return new ServiceCBuilder(singletonCImpl);
     }
 
+    private TimelessApp injectTimelessApp2(TimelessApp instance) {
+      TimelessApp_MembersInjector.injectNotificationChannelManager(instance, notificationChannelManagerProvider.get());
+      TimelessApp_MembersInjector.injectHiltWorkerFactory(instance, hiltWorkerFactory());
+      return instance;
+    }
+
     private static final class SwitchingProvider<T> implements Provider<T> {
       private final SingletonCImpl singletonCImpl;
 
@@ -639,25 +673,31 @@ public final class DaggerTimelessApp_HiltComponents_SingletonC {
       @Override
       public T get() {
         switch (id) {
-          case 0: // com.rivaldo.timeless.data.repository.DailyLogRepositoryImpl 
+          case 0: // com.rivaldo.timeless.data.local.notification.NotificationChannelManager 
+          return (T) new NotificationChannelManager(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
+
+          case 1: // com.rivaldo.timeless.domain.usecase.ScheduleReminderUseCase 
+          return (T) new ScheduleReminderUseCase(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
+
+          case 2: // com.rivaldo.timeless.data.repository.DailyLogRepositoryImpl 
           return (T) new DailyLogRepositoryImpl(singletonCImpl.provideDailyLogDaoProvider.get(), singletonCImpl.microThumbnailGeneratorProvider.get(), singletonCImpl.mediaMetadataExtractorProvider.get(), ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
 
-          case 1: // com.rivaldo.timeless.data.local.dao.DailyLogDao 
+          case 3: // com.rivaldo.timeless.data.local.dao.DailyLogDao 
           return (T) DatabaseModule_ProvideDailyLogDaoFactory.provideDailyLogDao(singletonCImpl.provideTimelessDatabaseProvider.get());
 
-          case 2: // com.rivaldo.timeless.data.local.database.TimelessDatabase 
+          case 4: // com.rivaldo.timeless.data.local.database.TimelessDatabase 
           return (T) DatabaseModule_ProvideTimelessDatabaseFactory.provideTimelessDatabase(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
 
-          case 3: // com.rivaldo.timeless.data.local.media.MicroThumbnailGenerator 
+          case 5: // com.rivaldo.timeless.data.local.media.MicroThumbnailGenerator 
           return (T) new MicroThumbnailGenerator(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
 
-          case 4: // com.rivaldo.timeless.data.local.media.MediaMetadataExtractor 
+          case 6: // com.rivaldo.timeless.data.local.media.MediaMetadataExtractor 
           return (T) new MediaMetadataExtractor(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
 
-          case 5: // com.rivaldo.timeless.data.repository.UserProfileRepositoryImpl 
+          case 7: // com.rivaldo.timeless.data.repository.UserProfileRepositoryImpl 
           return (T) new UserProfileRepositoryImpl(singletonCImpl.provideUserProfileDaoProvider.get());
 
-          case 6: // com.rivaldo.timeless.data.local.dao.UserProfileDao 
+          case 8: // com.rivaldo.timeless.data.local.dao.UserProfileDao 
           return (T) DatabaseModule_ProvideUserProfileDaoFactory.provideUserProfileDao(singletonCImpl.provideTimelessDatabaseProvider.get());
 
           default: throw new AssertionError(id);

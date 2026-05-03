@@ -23,6 +23,7 @@ import com.rivaldo.timeless.data.local.notification.NotificationChannelManager;
 import com.rivaldo.timeless.data.repository.DailyLogRepositoryImpl;
 import com.rivaldo.timeless.data.repository.UserProfileRepositoryImpl;
 import com.rivaldo.timeless.domain.usecase.CalculateTimeCanvasUseCase;
+import com.rivaldo.timeless.domain.usecase.GetJourneyReflectionUseCase;
 import com.rivaldo.timeless.domain.usecase.GetLogForDateUseCase;
 import com.rivaldo.timeless.domain.usecase.GetUserProfileUseCase;
 import com.rivaldo.timeless.domain.usecase.SaveDailyLogUseCase;
@@ -455,6 +456,10 @@ public final class DaggerTimelessApp_HiltComponents_SingletonC {
       return new GetUserProfileUseCase(singletonCImpl.userProfileRepositoryImplProvider.get());
     }
 
+    private GetJourneyReflectionUseCase getJourneyReflectionUseCase() {
+      return new GetJourneyReflectionUseCase(singletonCImpl.dailyLogRepositoryImplProvider.get());
+    }
+
     private SaveUserProfileUseCase saveUserProfileUseCase() {
       return new SaveUserProfileUseCase(singletonCImpl.userProfileRepositoryImplProvider.get());
     }
@@ -502,7 +507,7 @@ public final class DaggerTimelessApp_HiltComponents_SingletonC {
           return (T) new DiaryViewModel(viewModelCImpl.saveDailyLogUseCase(), viewModelCImpl.getLogForDateUseCase());
 
           case 1: // com.rivaldo.timeless.presentation.home.HomeViewModel 
-          return (T) new HomeViewModel(viewModelCImpl.getUserProfileUseCase(), new CalculateTimeCanvasUseCase(), viewModelCImpl.getLogForDateUseCase());
+          return (T) new HomeViewModel(viewModelCImpl.getUserProfileUseCase(), new CalculateTimeCanvasUseCase(), viewModelCImpl.getLogForDateUseCase(), viewModelCImpl.getJourneyReflectionUseCase());
 
           case 2: // com.rivaldo.timeless.presentation.onboarding.OnboardingViewModel 
           return (T) new OnboardingViewModel(viewModelCImpl.saveUserProfileUseCase(), viewModelCImpl.getUserProfileUseCase());

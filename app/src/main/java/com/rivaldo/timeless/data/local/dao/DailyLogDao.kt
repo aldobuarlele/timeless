@@ -42,6 +42,16 @@ interface DailyLogDao {
     @Query("SELECT * FROM daily_log ORDER BY date DESC")
     fun getAllLogs(): Flow<List<DailyLogEntity>>
 
+    /**
+     * Retrieve all logs within a date range (inclusive) ordered by date ascending.
+     * Used by Journey Reflection to fetch logs for a specific week.
+     *
+     * @param startDate Range start in YYYY-MM-DD format (inclusive).
+     * @param endDate Range end in YYYY-MM-DD format (inclusive).
+     */
+    @Query("SELECT * FROM daily_log WHERE date >= :startDate AND date <= :endDate ORDER BY date ASC")
+    fun getLogsByWeekRange(startDate: String, endDate: String): Flow<List<DailyLogEntity>>
+
     // --- Media Attachment Queries ---
 
     /**

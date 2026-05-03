@@ -300,6 +300,52 @@ public final class DailyLogDao_Impl implements DailyLogDao {
   }
 
   @Override
+  public Flow<List<DailyLogEntity>> getLogsByWeekRange(final String startDate,
+      final String endDate) {
+    final String _sql = "SELECT * FROM daily_log WHERE date >= ? AND date <= ? ORDER BY date ASC";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 2);
+    int _argIndex = 1;
+    _statement.bindString(_argIndex, startDate);
+    _argIndex = 2;
+    _statement.bindString(_argIndex, endDate);
+    return CoroutinesRoom.createFlow(__db, false, new String[] {"daily_log"}, new Callable<List<DailyLogEntity>>() {
+      @Override
+      @NonNull
+      public List<DailyLogEntity> call() throws Exception {
+        final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+        try {
+          final int _cursorIndexOfDate = CursorUtil.getColumnIndexOrThrow(_cursor, "date");
+          final int _cursorIndexOfContent = CursorUtil.getColumnIndexOrThrow(_cursor, "content");
+          final int _cursorIndexOfCreatedAt = CursorUtil.getColumnIndexOrThrow(_cursor, "created_at");
+          final int _cursorIndexOfUpdatedAt = CursorUtil.getColumnIndexOrThrow(_cursor, "updated_at");
+          final List<DailyLogEntity> _result = new ArrayList<DailyLogEntity>(_cursor.getCount());
+          while (_cursor.moveToNext()) {
+            final DailyLogEntity _item;
+            final String _tmpDate;
+            _tmpDate = _cursor.getString(_cursorIndexOfDate);
+            final String _tmpContent;
+            _tmpContent = _cursor.getString(_cursorIndexOfContent);
+            final long _tmpCreatedAt;
+            _tmpCreatedAt = _cursor.getLong(_cursorIndexOfCreatedAt);
+            final long _tmpUpdatedAt;
+            _tmpUpdatedAt = _cursor.getLong(_cursorIndexOfUpdatedAt);
+            _item = new DailyLogEntity(_tmpDate,_tmpContent,_tmpCreatedAt,_tmpUpdatedAt);
+            _result.add(_item);
+          }
+          return _result;
+        } finally {
+          _cursor.close();
+        }
+      }
+
+      @Override
+      protected void finalize() {
+        _statement.release();
+      }
+    });
+  }
+
+  @Override
   public Flow<List<MediaAttachmentEntity>> getMediaAttachmentsForDate(final String logDate) {
     final String _sql = "SELECT * FROM media_attachment WHERE log_date = ?";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);

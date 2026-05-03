@@ -12,7 +12,11 @@ import com.rivaldo.timeless.domain.model.DailyLog
 import com.rivaldo.timeless.domain.model.MediaAttachment
 import com.rivaldo.timeless.domain.repository.DailyLogRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -59,6 +63,25 @@ class DailyLogRepositoryImpl @Inject constructor(
         return dao.getAllLogs().map { entities ->
             entities.map { entity ->
                 entity.toDomainModel(emptyList())
+            }
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override fun getLogsByWeekRange(startDate: String, endDate: String): Flow<List<DailyLog>> {
+        return dao.getLogsByWeekRange(startDate, endDate).flatMapLatest { entities ->
+            if (entities.isEmpty()) {
+                kotlinx.coroutines.flow.flowOf(emptyList())
+            } else {
+                // Combine all media attachment flows for each log entity
+                val logWithAttachmentsFlows = entities.map { entity ->
+                    dao.getMediaAttachmentsForDate(entity.date).map { attachmentEntities ->
+                        entity.toDomainModel(
+                            attachments = attachmentEntities.map { it.toDomainModel() }
+                        )
+                    }
+                }
+                combine(logWithAttachmentsFlows) { logs -> logs.toList() }
             }
         }
     }

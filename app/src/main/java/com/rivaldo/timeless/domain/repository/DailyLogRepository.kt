@@ -40,4 +40,13 @@ interface DailyLogRepository {
      * Retrieve all daily logs ordered by date descending.
      */
     fun getAllLogs(): Flow<List<DailyLog>>
+
+    /**
+     * Retrieve all logs within a date range (inclusive) ordered by date ascending.
+     * Each log will include its associated media attachments.
+     *
+     * @param startDate Range start in YYYY-MM-DD format (inclusive).
+     * @param endDate Range end in YYYY-MM-DD format (inclusive).
+     */
+    fun getLogsByWeekRange(startDate: String, endDate: String): Flow<List<DailyLog>>
 }
