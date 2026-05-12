@@ -6,18 +6,6 @@ Timeless is designed to encourage reflection, capture daily memories, and reduce
 
 ---
 
-## Philosophy
-
-> *"Setiap titik adalah momenmu."*
-
-Timeless embraces a gentle, anti-anxiety approach to time awareness:
-- **No countdown numbers** — time is represented visually through abstract dots on the Zen Canvas.
-- **No guilt** — missed days can be redeemed with contextual prompts.
-- **No internet** — 100% local-first. Your data stays on your device.
-- **No battery drain** — background tasks are tightly controlled within battery-efficient windows.
-
----
-
 ## Tech Stack
 
 | Layer | Technology |
@@ -33,6 +21,20 @@ Timeless embraces a gentle, anti-anxiety approach to time awareness:
 | **Image Loading** | Coil |
 
 ---
+
+## Philosophy
+
+> *"Setiap titik adalah momenmu."*
+
+Timeless embraces a gentle, anti-anxiety approach to time awareness:
+- **No countdown numbers** — time is represented visually through abstract dots on the Zen Canvas.
+- **No guilt** — missed days can be redeemed with contextual prompts.
+- **No internet** — 100% local-first. Your data stays on your device.
+- **No battery drain** — background tasks are tightly controlled within battery-efficient windows.
+
+---
+
+
 
 ## Project Structure
 
